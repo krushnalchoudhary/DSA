@@ -1,52 +1,72 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class BruteForce {
     public static void main(String[] args) {
-        System.out.println("Enter Array Size:");
-        int size = 0;
+        System.out.println("Enter Array1 Size:");
+        int size1 = 0;
 
         Scanner sc = new Scanner(System.in);
-        size = sc.nextInt();
+        size1 = sc.nextInt();
 
-        int[] arr = new int[size];
+        System.out.println("Enter Array2 size");
 
-        System.out.println("Enter array elements:");
+        int size2 = 0;
+        size2 = sc.nextInt();
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = sc.nextInt();
+        int[] arr1 = new int[size1];
+        int[] arr2 = new int[size2];
+
+        System.out.println("Enter array1 elements:");
+
+        for (int i = 0; i < arr1.length; i++) {
+            arr1[i] = sc.nextInt();
+        }
+
+        System.out.println("Enter array2 elements:");
+
+        for (int i = 0; i < arr2.length; i++) {
+            arr2[i] = sc.nextInt();
         }
 
         System.out.print("[");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i]);
+        for (int i = 0; i < arr1.length; i++) {
+            System.out.print(arr1[i]);
         }
 
         System.out.print("]");
 
-        int[] updatedArray = moveZeroestoEnd(arr);
-
-        for (int i = 0; i < updatedArray.length; i++) {
-            System.out.print(updatedArray[i] + " ");
+        System.out.print("[");
+        for (int i = 0; i < arr2.length; i++) {
+            System.out.print(arr2[i]);
         }
+
+        System.out.print("]");
+
+        ArrayList<Integer> Union = findUnion(arr1, arr2);
+
+        for (int val : Union) {
+            System.out.println(val + " ");
+        }
+
     }
 
-    static int[] moveZeroestoEnd(int[] arr) {
-        ArrayList<Integer> temp = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] != 0) {
-                temp.add(arr[i]);
-            }
+    static ArrayList<Integer> findUnion(int[] arr1, int[] arr2) {
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        ArrayList<Integer> Union = new ArrayList<>();
+
+        for (int i = 0; i < arr2.length; i++) {
+            freq.put(arr2[i], freq.getOrDefault(arr2[i], 0) + 1);
         }
 
-        for (int i = 0; i < temp.size(); i++) {
-            arr[i] = temp.get(i);
+        for (int i = 0; i < arr1.length; i++) {
+            freq.put(arr1[i], freq.getOrDefault(arr1[i], 0) + 1);
         }
+        for (int it : freq.keySet())
+            Union.add(it);
 
-        for (int i = temp.size(); i < arr.length; i++) {
-            arr[i] = 0;
-        }
-        return arr;
+        return Union;
     }
 }
